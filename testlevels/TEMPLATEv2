@@ -1,0 +1,22 @@
+//different template style
+
+{
+//switch manifest
+[<number>: ,<number of positions>,<default position>, <number of taps>]
+}
+{
+//track manifest
+(<switch a>, <switch b>: <trackpeople>, <trackpeople> ...; obs)
+}
+
+{
+//switch manifest
+[o: 2, 0, 2] //origin switch
+[1: 1, 1, 2] //switch 1, 2 positions, in position 1, 2 taps permitted
+[o: 2, 0, 2]
+}
+{
+//track manifest
+(o,1: 7; 0) //track between origin and 1, one trackpeople group with a score of 7
+(o,2: 0; 0)
+}

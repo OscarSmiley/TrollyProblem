@@ -1,0 +1,11 @@
+#!/bin/bash
+echo "build using Javac"
+find src -name "*.java" > sources.txt
+if javac @sources.txt -d build;
+then 
+	echo "build done"
+else
+	echo "build not done"
+fi	
+
+rm sources.txt

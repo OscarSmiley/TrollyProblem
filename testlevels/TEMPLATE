@@ -1,0 +1,12 @@
+//Ignore line,  (o) origin, (e)end, (n) switchnumber
+(o):<switch positions>
+	//outgoing tracks <length>: [<people>,<position>], ..., (<switch number>)
+(1):x
+	//outgoing tracks
+.
+.
+.
+(n):x	
+	//outgoing tracks
+(e):0; //at end of board. Must have 0 positions. ';' indicates end of board.
+
