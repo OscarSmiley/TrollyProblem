@@ -1,5 +1,10 @@
-(o):0 //origin
-	150: [12,25], [4,75], [1,125], (1); //... track definition
-(1):1 //switch 1
-	150: [12,25], [4,75], [1,125], (e);
-(e):0;
+//switch manifest
+[0: 2, 0, 2] //this is ok
+[1: 1, 1, 2] // this is ok
+[2: 2, 0, 2]
+}
+{
+//track manifest
+(o,1: 7; 0)
+(o,2: 0; 0)
+}

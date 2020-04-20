@@ -1,0 +1,24 @@
+//different template style
+//only valure inside of the [] and () are critical - however comments still require //
+//This is to help remove user mistakes when delarations
+//Loading then linking graph is used so the tracks and switches do not need to appear in order
+
+
+//switch manifest
+[<number>: ,<number of positions>,<default position>, <number of taps>]
+
+//track manifest
+(<switch a>, <switch b>: <trackpeople>, <trackpeople> ...; obs)
+
+
+{
+//switch manifest
+[0: 2, 0, 2] // 0 <-> origin switch
+[1: 1, 1, 2] //switch 1, 2 positions, in position 1, 2 taps permitted
+[3: 2, 0, 2]
+}
+{
+//track manifest
+(0,1: 7; 0) //track between origin and 1, one trackpeople group with a score of 7
+(0,2: 0; 0)
+}
