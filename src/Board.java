@@ -31,15 +31,19 @@ public class Board{
                while(boardscn.hasNextLine()){
                     String currline = boardscn.nextLine();
                     System.out.print(currline + "\t");
-                    if(!currline.matches(blankLineRegEx)){
+                    //if(!currline.matches(blankLineRegEx)){
                          if(readSwitch(switchP.matcher(currline), switchList)){ //passes switchP matcher to currline, expects false if !matches()
                               System.out.print("--switch def");
                          }
                          else if(readTrack(trackP.matcher(currline), switchList)){
                               System.out.print("--track def");
                          }
-                    }
+                    //}
                     System.out.println();
+               }
+               System.out.println("switchList");
+               for(int i = 0; i < switchList.size(); i++){
+                    System.out.println("switch " + switchList.get(i).number);
                }
           }
           catch(FileNotFoundException noSuchFile){
@@ -53,7 +57,9 @@ public class Board{
                return false;
           }
           //otherwise use it to define a switch;
-          Switch genSwitch = new Switch();
+          Switch genSwitch = new Switch(Integer.parseInt(matchedline.group(1)), Integer.parseInt(matchedline.group(2)), Integer.parseInt(matchedline.group(4)));
+          genSwitch.setPosition(Integer.parseInt(matchedline.group(3)));
+          switchList.add(genSwitch);
           return true;
 
 
