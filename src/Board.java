@@ -14,13 +14,8 @@ public class Board{
           */
           //A list of switches to contian them before linking
           ArrayList <Switch> switchList = new ArrayList<Switch>();
-          //create regex Patterns for grouping blank or commented lines, scope operators, switch and track definiitons
-          Pattern blankLineP = Pattern.compile("\\s*(//.*)?");  //discard a comment line
-          /*
-          Pattern openScopeP = Pattern.compile("\\s*({*)\\s*(//.*)?"); //find a line with an open scope character
-          Pattern closeScopeP = Pattern.compile("\\s*(*})\\s*(//.*)?");
-          */
           Pattern switchP = Pattern.compile("^\\s*\\[\\s*(\\d):\\s*(\\d),\\s*(\\d),\\s*(\\d)\\s*\\](\\s*//.*|\\s*)$");
+          Pattern trackP = Pattern.compile("^\\s*\\(\\s*(\\d,\\d):\\s*(\\d\\s*)*;\\s*(\\d\\s*)*\\)(\\s*//.*|\\s*)$");
           //regex strings for situations where creating a matcher object is unnessesary
           String openScopeRegEx = "\\s*({*)\\s*(//.*)?";
           String blankLineRegEx = "\\s*(//.*)?"; //don't need a full matcher for detecting blank lines
@@ -36,24 +31,13 @@ public class Board{
                while(boardscn.hasNextLine()){
                     String currline = boardscn.nextLine();
                     System.out.print(currline + "\t");
-                    blankMatch = blankLineP.matcher(currline);
-                    //if(blankMatch.groupCount() == 0){
                     if(!currline.matches(blankLineRegEx)){
                          if(readSwitch(switchP.matcher(currline), switchList)){ //passes switchP matcher to currline, expects false if !matches()
-                              System.out.print("--Non-blank line");
+                              System.out.print("--switch def");
                          }
-                         /*
-                         //open an closed scope is unnessesary
-                         else if(switchblock == true){
-                              //scanning lines within a track block
+                         else if(readTrack(trackP.matcher(currline), switchList)){
+                              System.out.print("--track def");
                          }
-                         else if(trackblock == true){
-                              //scanning lines within a switch block
-                         }
-                         else{
-                              //scanning lines in file scope
-                         }
-                         */
                     }
                     System.out.println();
                }
@@ -63,7 +47,7 @@ public class Board{
           }
      }
 
-     private boolean readSwitch(Matcher matchedline, ArrayList switchList){
+     private boolean readSwitch(Matcher matchedline, ArrayList<Switch> switchList){
           if(!matchedline.matches()){
                //if the input is not matched, return false
                return false;
@@ -74,10 +58,12 @@ public class Board{
 
 
      }
-     /*
-     private Track readTrack(ArrayList<Switch> switches, String line){
-          Track genTrack = new Track();
-          return genTrack;
+
+     private boolean readTrack(Matcher matchedline, ArrayList<Switch> switchList){
+          if(!matchedline.matches()){
+               return false;
+          }
+          //Track genTrack = new Track();
+          return true;
      }
-     */
 }
