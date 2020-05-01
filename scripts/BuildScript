@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "build using Javac"
-find src -name "*.java" > sources.txt
-if javac @sources.txt -d build;
+find ../src -maxdepth 1 -name "*.java" > sources.txt
+if javac @sources.txt -d ../build;
 then 
 	echo "build done"
 else

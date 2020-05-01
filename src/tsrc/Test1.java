@@ -1,5 +1,5 @@
 import java.io.*;
-class TEST1{
+class Test1MAIN{
      /*
      test file io, graph loading and population
      terminal: java TEST1 file path

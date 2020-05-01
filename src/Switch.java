@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 public class Switch{
      public int number; //number of the beast
-     private int numberOfPositions; //number of connections
+     private ArrayList<Track> Connections;
+     private int numberOfPositions; //number of connections - 0 is the first position. number - 1 is the last.
      private int position; //current position
      private int numberOfTaps; //number of taps. 0 = unlimited
-     private ArrayList<Track> Connections;
+
 
      public Switch(int assignedNumber, int assignednumberPositions, int assignedTaps){
           numberOfPositions = assignednumberPositions;
@@ -19,9 +20,12 @@ public class Switch{
      public Track getTrack(){
           return Connections.get(position);
      }
+     public int trackNumber(){
+          return Connections.size();
+     }
 
      public void setPosition(int pos){
-          position = pos;
+          position = pos%numberOfPositions;
      }
      public int getPositon(){
           return position;

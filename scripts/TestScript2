@@ -1,0 +1,17 @@
+#!/bin/bash
+#shell script for test1
+#test1:
+	#test Board.class loading from input file
+	#	TestScript1
+	#	Test1.java -> Test1MAIN.class
+echo "build using Javac"
+find ../src -maxdepth 1 -name "*.java" > sources.txt
+find ../src/tsrc -name "Test2.java" >> sources.txt
+if javac @sources.txt -d ../build;
+then 
+	echo "build done"
+else
+	echo "build not done"
+fi	
+#rm sources.txt
+java -cp ../build Test2MAIN $1

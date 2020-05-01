@@ -3,8 +3,10 @@ import java.util.ArrayList;
 import java.util.regex.*;
 import java.util.Scanner;
 public class Board{
-     Switch trackOrigin;
-     void populate(File boardmap){
+     public Switch trackOrigin;
+     private ArrayList <Switch> switchList = new ArrayList<Switch>();
+     private ArrayList <Track> TrackList = new ArrayList<Track>();
+     public void populate(File boardmap){
           /*
           populates the board class with the tracks and switches defined in a level file
           input:
@@ -13,9 +15,8 @@ public class Board{
                void (beginning of the level map referenced by the track origin)
           */
           //A list of switches to contian them before linking
-          ArrayList <Switch> switchList = new ArrayList<Switch>();
           Pattern switchP = Pattern.compile("^\\s*\\[\\s*(\\d):\\s*(\\d),\\s*(\\d),\\s*(\\d)\\s*\\](\\s*//.*|\\s*)$");
-          Pattern trackP = Pattern.compile("^\\s*\\(\\s*(\\d,\\d):\\s*(\\d\\s*)*;\\s*(\\d\\s*)*\\)(\\s*//.*|\\s*)$");
+          Pattern trackP = Pattern.compile("^\\s*\\(\\s*(\\d),\\s*(\\d):\\s*(\\d\\s*)*;\\s*(\\d\\s*)*\\)(\\s*//.*|\\s*)$");
           //regex strings for situations where creating a matcher object is unnessesary
           String openScopeRegEx = "\\s*({*)\\s*(//.*)?";
           String blankLineRegEx = "\\s*(//.*)?"; //don't need a full matcher for detecting blank lines
@@ -31,19 +32,17 @@ public class Board{
                while(boardscn.hasNextLine()){
                     String currline = boardscn.nextLine();
                     System.out.print(currline + "\t");
-                    //if(!currline.matches(blankLineRegEx)){
-                         if(readSwitch(switchP.matcher(currline), switchList)){ //passes switchP matcher to currline, expects false if !matches()
-                              System.out.print("--switch def");
-                         }
-                         else if(readTrack(trackP.matcher(currline), switchList)){
-                              System.out.print("--track def");
-                         }
-                    //}
+                    if(readSwitch(switchP.matcher(currline), switchList)){ //passes switchP matcher to currline, expects false if !matches()
+                         System.out.print("--switch def");
+                    }
+                    else if(readTrack(trackP.matcher(currline), switchList)){
+                         System.out.print("--track def");
+                    }
                     System.out.println();
                }
-               System.out.println("switchList");
-               for(int i = 0; i < switchList.size(); i++){
-                    System.out.println("switch " + switchList.get(i).number);
+               System.out.println("TrackList");
+               for(int i = 0; i < TrackList.size(); i++){
+                    System.out.println("Track " + TrackList.get(i).startSwitch.number + " " + TrackList.get(i).endSwitch.number);
                }
           }
           catch(FileNotFoundException noSuchFile){
@@ -58,6 +57,9 @@ public class Board{
           }
           //otherwise use it to define a switch;
           Switch genSwitch = new Switch(Integer.parseInt(matchedline.group(1)), Integer.parseInt(matchedline.group(2)), Integer.parseInt(matchedline.group(4)));
+          if(Integer.parseInt(matchedline.group(1)) == 0){
+               trackOrigin = genSwitch;
+          }
           genSwitch.setPosition(Integer.parseInt(matchedline.group(3)));
           switchList.add(genSwitch);
           return true;
@@ -69,7 +71,27 @@ public class Board{
           if(!matchedline.matches()){
                return false;
           }
-          //Track genTrack = new Track();
+
+          Switch start = findSwitch(switchList, Integer.parseInt(matchedline.group(1)));
+          Switch end = findSwitch(switchList, Integer.parseInt(matchedline.group(2)));
+          if(start == null || end == null){
+               System.out.println("start or end null");
+               //thow exeption
+          }
+          Track genTrack = new Track(start, end);
+          start.addTrack(genTrack);
+          end.addTrack(genTrack);
+          TrackList.add(genTrack);
           return true;
+     }
+     private Switch findSwitch(ArrayList<Switch> SearchList, int number){
+          //linear search by switchnumber
+          //find out if you can use ArrayList.contains() to do this
+          for(int i = 0; i < SearchList.size(); i++){
+               if(SearchList.get(i).number == number){
+                    return SearchList.get(i);
+               }
+          }
+          return null;
      }
 }
