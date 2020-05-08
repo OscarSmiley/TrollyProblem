@@ -80,7 +80,9 @@ public class Board{
           }
           Track genTrack = new Track(start, end);
           start.addTrack(genTrack);
-          end.addTrack(genTrack);
+          //end.addTrack(genTrack); //bug found by test2.
+                                    //linking the track to the end switch track lists effectively links the end switch to itself.
+                                    //track start and end points implicitly define switch track links as outgoing directional tracks
           TrackList.add(genTrack);
           return true;
      }
