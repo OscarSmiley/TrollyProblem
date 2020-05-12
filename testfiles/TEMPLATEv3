@@ -2,6 +2,7 @@
 //only valure inside of the [] and () are critical - however comments still require //
 //This is to help remove user mistakes when delarations
 //Loading then linking graph is used so the tracks and switches do not need to appear in order
+//the board is an undirected graph, thus tracks are bi-directional
 
 
 //switch manifest

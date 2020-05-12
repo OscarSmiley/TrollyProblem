@@ -3,9 +3,12 @@ import java.util.ArrayList;
 import java.util.regex.*;
 import java.util.Scanner;
 public class Board{
+     //debug output
+     public static final boolean DEBUG = false;
+
      public Switch trackOrigin;
      private ArrayList <Switch> switchList = new ArrayList<Switch>();
-     private ArrayList <Track> TrackList = new ArrayList<Track>();
+     //private ArrayList <Track> TrackList = new ArrayList<Track>();
      public void populate(File boardmap){
           /*
           populates the board class with the tracks and switches defined in a level file
@@ -31,18 +34,13 @@ public class Board{
                Matcher scopeMatch;
                while(boardscn.hasNextLine()){
                     String currline = boardscn.nextLine();
-                    System.out.print(currline + "\t");
-                    if(readSwitch(switchP.matcher(currline), switchList)){ //passes switchP matcher to currline, expects false if !matches()
-                         System.out.print("--switch def");
+                    if(readSwitch(switchP.matcher(currline), switchList)){
                     }
                     else if(readTrack(trackP.matcher(currline), switchList)){
-                         System.out.print("--track def");
                     }
-                    System.out.println();
-               }
-               System.out.println("TrackList");
-               for(int i = 0; i < TrackList.size(); i++){
-                    System.out.println("Track " + TrackList.get(i).startSwitch.number + " " + TrackList.get(i).endSwitch.number);
+                    if(DEBUG){
+                         System.out.println(currline);
+                    }
                }
           }
           catch(FileNotFoundException noSuchFile){
@@ -83,7 +81,6 @@ public class Board{
           //end.addTrack(genTrack); //bug found by test2.
                                     //linking the track to the end switch track lists effectively links the end switch to itself.
                                     //track start and end points implicitly define switch track links as outgoing directional tracks
-          TrackList.add(genTrack);
           return true;
      }
      private Switch findSwitch(ArrayList<Switch> SearchList, int number){
